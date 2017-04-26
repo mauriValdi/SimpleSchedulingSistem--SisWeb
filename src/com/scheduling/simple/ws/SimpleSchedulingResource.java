@@ -35,6 +35,11 @@ public class SimpleSchedulingResource {
         
         return clas;
     }
+    
+/*    public void addStudentToClass(int studentID, String classCode){
+        
+    }*/
+    
 
     public Student retrieveStudent(int studentId) {
         return studentsMap.get(studentId);

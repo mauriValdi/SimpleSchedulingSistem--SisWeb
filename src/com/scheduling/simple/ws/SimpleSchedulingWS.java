@@ -48,7 +48,7 @@ public class SimpleSchedulingWS {
         return resource.retrieveStudent(studentId);
     }
     
-        /**
+    /**
      * Return a class based on its code.
      * @param code String
      * @return 
