@@ -13,11 +13,11 @@ import java.util.Map;
 public class SimpleSchedulingResource {
     
     private Map<Integer, Student> studentsMap;
-    private Map<String,Class > classessMap;
+    private Map<String,Class > classesMap;
 
     public SimpleSchedulingResource() {
         studentsMap = new HashMap<Integer, Student>();
-        classessMap = new HashMap<String, Class>();
+        classesMap = new HashMap<String, Class>();
     }
     
     public Student createStudent(int studentId, String lastName, String firstName) {
@@ -31,7 +31,7 @@ public class SimpleSchedulingResource {
     public Class createClass(String code, String title, String description) {
         // TODO validate input data
         Class clas = new Class(code, title, description);
-        classessMap.put(code , clas);
+        classesMap.put(code , clas);
         
         return clas;
     }
@@ -46,7 +46,50 @@ public class SimpleSchedulingResource {
     }
     
        public Class retrieveClass(String code) {
-        return classessMap.get(code);
+        return classesMap.get(code);
+    }
+       public void editClassTitle(String code, String title){
+        classesMap.get(code).setTitle(title);
+    }
+    
+    public void editClassDescription(String code, String description){
+        classesMap.get(code).setDescription(description);
+    }
+    
+    public void editStundentFirstName(int studentId, String firstName){
+        studentsMap.get(studentId).setFirstName(firstName);
+    }
+    
+    public void editStudentLastName(int studentId, String lastName){
+        studentsMap.get(studentId).setLastName(lastName);
+    }
+    
+    public void deleteStudent(int studentId)
+    {
+        studentsMap.remove(studentId);
+    }
+    
+    public void deleteClass(String code)
+    {
+        classesMap.remove(code);
+    }
+    
+    public void addStudentToClass(int studentId, String code)
+    {
+        classesMap.get(code).addId(studentId);
+        studentsMap.get(studentId).addCode(code);
+    }
+    
+    public List<Student> getStudents()
+    {
+        List<Student> students = new ArrayList<>(studentsMap.values());
+        return students;
+    }
+    
+    public List<Class> getClasses()
+    {
+        List<Class> classes = new ArrayList<>(classesMap.values());
+        return classes;
     }
     
     

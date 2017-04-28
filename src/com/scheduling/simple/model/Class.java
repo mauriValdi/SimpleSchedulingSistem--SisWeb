@@ -3,6 +3,8 @@
  */
 package com.scheduling.simple.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,11 +20,14 @@ public class Class {
     private String title;
     @XmlElement(name = "description")
     private String description;
+    @XmlElement(name = "ids")
+    private List<Integer> ids;
 
     public Class(String code, String title, String description) {
         this.code = code;
         this.title = title;
         this.description = description;
+        ids = new ArrayList<Integer>();
     }
 
 
@@ -67,5 +72,15 @@ public class Class {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public void addId(int id)
+    {
+        ids.add(id);
+    }
+    
+    public List<Integer> getIds()
+    {
+        return ids;
     }
 }

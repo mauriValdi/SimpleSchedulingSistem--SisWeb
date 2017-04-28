@@ -5,6 +5,8 @@ package com.scheduling.simple.ws;
 
 import com.scheduling.simple.model.Student;
 import com.scheduling.simple.model.Class;
+import java.util.ArrayList;
+import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
@@ -60,4 +62,29 @@ public class SimpleSchedulingWS {
     }
     
     // add more methods to createClass, registerStudentToClass
+    
+    public void addStudentToClass(@WebParam(name = "studentId") int studentId,
+            @WebParam(name = "code") String code){
+        resource.addStudentToClass(studentId, code);
+    }
+    
+    public void deleteStudent(@WebParam(name= "studentId") int studentId)
+    {
+        resource.deleteStudent(studentId);
+    }
+    
+    public void deleteClass(@WebParam(name = "code") String code)
+    {
+        resource.deleteClass(code);
+    }
+    
+    public List<Class> getAllClasses()
+    {
+        return resource.getClasses();
+    }
+    
+    public List<Student> getAllStudents()
+    {
+        return resource.getStudents();
+    }
 }
