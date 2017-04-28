@@ -78,6 +78,20 @@ public class SimpleSchedulingWS {
         resource.deleteClass(code);
     }
     
+    public Student editStudent(@WebParam(name = "studentId") int studentId, 
+            @WebParam(name = "lastName") String lastName, 
+            @WebParam(name = "firstName") String firstName)
+    {
+        return resource.editStudent(studentId, firstName, lastName);
+    }
+    
+    public Class editClass(@WebParam(name = "code") String code, 
+            @WebParam(name = "title") String title, 
+            @WebParam(name = "description") String description){
+        return resource.editClass(code, title, description);
+    }
+    
+    
     public List<Class> getAllClasses()
     {
         return resource.getClasses();
@@ -87,4 +101,32 @@ public class SimpleSchedulingWS {
     {
         return resource.getStudents();
     }
+    
+    public List<Class> getClassesForStudent(@WebParam(name= "studentId") int studentId)
+    {
+        return resource.getClassesFromStudent(studentId);
+    }
+    
+    public List<Student> getStudentsForClass(@WebParam(name= "classCode") String code)
+    {
+        return resource.getStudentsForClass(code);
+    }
+    
+    public Student searchStudentByFirstName(@WebParam(name = "firstName") String firstName){
+        return resource.searchStudentByFirstName(firstName);
+    }
+    
+    public Student searchStudentByLastName(@WebParam(name = "lastName") String lastName){
+        return resource.searchStudentByLastName(lastName);
+    }
+    
+    public Class searchClassByTitle(@WebParam(name = "title") String title){
+        return resource.searchClassByTitle(title);
+    }
+    
+        public Class searchClassByDescription(@WebParam(name = "description") String description){
+        return resource.searchClassByDescription(description);
+    }
+    
+    
 }
