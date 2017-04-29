@@ -14,11 +14,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Student")
 public class Student {
     
-    @XmlElement(name = "studentId")
+    @XmlElement(name = "studentId", required = true)
     private int studentId;
-    @XmlElement(name = "lastName")
+    @XmlElement(name = "lastName", required = true)
     private String lastName;
-    @XmlElement(name = "firstName")
+    @XmlElement(name = "firstName", required = true)
     private String firstName;
     // add and objetList of 
     @XmlElement(name = "codes")

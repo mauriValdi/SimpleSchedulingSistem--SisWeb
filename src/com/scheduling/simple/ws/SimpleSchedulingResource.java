@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class SimpleSchedulingResource {
     
-    private Map<Integer, Student> studentsMap;
-    private Map<String,Class > classesMap;
+    private final Map<Integer, Student> studentsMap;
+    private final Map<String,Class > classesMap;
 
     public SimpleSchedulingResource() {
         studentsMap = new HashMap<Integer, Student>();
@@ -23,16 +23,19 @@ public class SimpleSchedulingResource {
     public Student createStudent(int studentId, String lastName, String firstName) {
         // TODO validate input data
         Student student = new Student(studentId, lastName, firstName);
-        studentsMap.put(studentId, student);
+        synchronized(studentsMap){
         
+        studentsMap.put(studentId, student);
+        }
         return student;
     }
     
     public Class createClass(String code, String title, String description) {
         // TODO validate input data
         Class clas = new Class(code, title, description);
-        classesMap.put(code , clas);
-        
+        synchronized(classesMap){
+            classesMap.put(code , clas);
+        }
         return clas;
     }
     
@@ -42,26 +45,39 @@ public class SimpleSchedulingResource {
     
 
     public Student retrieveStudent(int studentId) {
-        return studentsMap.get(studentId);
+        synchronized(studentsMap){
+            return studentsMap.get(studentId);
+        }
     }
     
-       public Class retrieveClass(String code) {
-        return classesMap.get(code);
+    public Class retrieveClass(String code) {
+        synchronized(classesMap){
+               return classesMap.get(code);
+        }
     }
-       public void editClassTitle(String code, String title){
-        classesMap.get(code).setTitle(title);
+    
+    public void editClassTitle(String code, String title){
+        synchronized(classesMap){
+            classesMap.get(code).setTitle(title);
+        }
     }
     
     public void editClassDescription(String code, String description){
-        classesMap.get(code).setDescription(description);
+        synchronized(classesMap){
+            classesMap.get(code).setDescription(description);
+        }
     }
     
     public void editStundentFirstName(int studentId, String firstName){
-        studentsMap.get(studentId).setFirstName(firstName);
+        synchronized(studentsMap){
+            studentsMap.get(studentId).setFirstName(firstName);
+        }
     }
     
     public void editStudentLastName(int studentId, String lastName){
-        studentsMap.get(studentId).setLastName(lastName);
+        synchronized(studentsMap){
+            studentsMap.get(studentId).setLastName(lastName);
+        }
     }
     
     public void deleteStudent(int studentId)
@@ -76,33 +92,46 @@ public class SimpleSchedulingResource {
     
     public void addStudentToClass(int studentId, String code)
     {
-        classesMap.get(code).addId(studentId);
-        studentsMap.get(studentId).addCode(code);
+        synchronized(classesMap){
+            classesMap.get(code).addId(studentId);
+        }
+        synchronized(studentsMap){
+            studentsMap.get(studentId).addCode(code);
+        }
     }
     
     public List<Student> getStudents()
     {
-        List<Student> students = new ArrayList<>(studentsMap.values());
-        return students;
+        synchronized(studentsMap){
+            List<Student> students = new ArrayList<>(studentsMap.values());
+             return students;
+        }
     }
     
     public List<Class> getClasses()
     {
-        List<Class> classes = new ArrayList<>(classesMap.values());
-        return classes;
+        synchronized(classesMap){
+            List<Class> classes = new ArrayList<>(classesMap.values());
+            return classes;
+        }
     }
     
     public List<Class> getClassesFromStudent(int studentId)
     {
+        
         List<String> studentClasses = new ArrayList<>();
-        studentClasses = studentsMap.get(studentId).getCodes();
+        synchronized(studentsMap){
+        studentClasses = studentsMap.get(studentId).getCodes();}
         List<Class> allClasses = new ArrayList<>();
         int size=studentClasses.size();
         Class thisClass = new Class(" "," "," ");
+        synchronized(classesMap){
+    
         for(int x=0;x<size;x++) {
             thisClass = classesMap.get(studentClasses.get(x));
             if(thisClass !=null )
                 allClasses.add(thisClass);
+        }
         }
         return  allClasses;
     }
@@ -113,27 +142,36 @@ public class SimpleSchedulingResource {
     {
         List<Integer> classIds;
         classIds = new ArrayList<>();
-        classIds = classesMap.get(code).getIds();
+        synchronized(classesMap){
+            classIds = classesMap.get(code).getIds();
+        }
         List<Student> allStudents = new ArrayList<>();
         int size=classIds.size();
         Student thisStudent = new Student(0," "," ");
+        synchronized(studentsMap){
         for(int x=0;x<size;x++) {
             thisStudent = studentsMap.get(classIds.get(x));
             if(thisStudent !=null )
                 allStudents.add(thisStudent);
         }
+        }
         return  allStudents;
     }
     
     public Student editStudent(int id, String firstName, String LastName){
-        studentsMap.get(id).setFirstName(firstName);
-        studentsMap.get(id).setLastName(LastName);
+        synchronized(studentsMap){
+            studentsMap.get(id).setFirstName(firstName);
+            studentsMap.get(id).setLastName(LastName);
+        }
+        
         return studentsMap.get(id); 
     }
     
     public Class editClass(String code, String title, String description){
-        classesMap.get(code).setTitle(title);
-        classesMap.get(code).setTitle(description);
+        synchronized(classesMap){
+            classesMap.get(code).setTitle(title);
+            classesMap.get(code).setTitle(description);
+        }
         return classesMap.get(code);
     }
     
